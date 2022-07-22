@@ -1,0 +1,35 @@
+% Moves the top value on the stack to the bottom.
+/bottom {
+	1 dict begin
+
+	count 1 gt
+	{
+		% swaps "count 1 gt" with the value to be moved.
+		exch
+		/top exch def
+		
+		% recurses down the stack
+		bottom
+		% Puts the value on the bottom of the stack
+		top
+	} if
+	end
+} def
+
+% Removes all instances of a value from the stack
+/remove {
+	1 dict begin
+	% Stores the user input of which value to remove.
+	/target exch def
+	count
+	{
+		% Duplicates the top value, so it will still be on the stack after being compared with target
+		dup
+		target exch eq
+		% If it's the value to be removed get rid of it, otherwise move it to the bottom.
+		{pop}
+		{bottom} ifelse
+	} repeat
+	end	
+} def
+

@@ -1,0 +1,34 @@
+% Moves the top value on the stack to the bottom.
+/bottom {
+	1 dict begin
+
+	count 1 gt
+	{
+		% swaps "count 1 gt" with the value to be moved.
+		exch
+		/top exch def
+		
+		% recurses down the stack
+		bottom
+		% Puts the value on the bottom of the stack
+		top
+	} if
+	end
+} def
+
+% Evaluates code on each item in the stack and removes what is applicable.
+/filter {
+	1 dict begin
+		% Stores the code to be evaluated.
+		/func exch def
+		count {
+			% Duplicates value so as not to be destroyed when ifelse evaluates.
+			dup
+			% If function is true remove from the stack. Otherwise put on the bottom of the stack.
+			/func load exec
+			{pop}
+			{bottom} ifelse
+		} repeat
+	end
+} def
+
